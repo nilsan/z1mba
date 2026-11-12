@@ -3,12 +3,21 @@
 ## Now
 - [x] Probe the Z1: multi-client, UDP state, tool-change sequence (docs/Z1-PROTOCOL.md)
 - [x] ESPHome component: UDP listener, status polls, tracker, entities; native tests
-- [ ] Flash a Freenove S3 and watch a real job next to z1probe
+- [ ] Hardware test on our kit (Freenove S3 + WeAct 2.9"), simplest first, each against the gcode/ air jobs:
+  - [x] 1. `z1mba-host.yaml` on a PC (no ESP32)
+  - [ ] 2. `z1mba-standalone.yaml` without its `screen:` line: the ESP32 alone, logs + status page next to z1probe
+  - [ ] 3. `z1mba-standalone.yaml` with the 2.9" screen
+  - [ ] 4. `z1mba.yaml`: the screen plus Home Assistant
 - [ ] Home Assistant: notification automations (tool change with the bit, alarm, job done)
 
 ## Next
 - [x] Choose the screen: 2.9" WeAct e-paper, black/white/red (296x128)
-- [ ] E-paper package: tool-change screen with the bit as text + type pictogram, red for "act now"; start the refresh as soon as the wanted bit is known
+- [x] E-paper package: tool-change screen, red for "act now", redraw as soon as the wanted bit holds
+- [x] Open for other screen sizes: layout from the display's size, tested natively at a few e-paper sizes (only the 2.9" ships and is tested on hardware)
+- [x] Runs without Home Assistant: HA is a package; standalone config with a status page
+- [ ] On the real 2.9" (step 3): pins, colours, refresh time, fonts that read across the room
+- [ ] Bit type pictogram (flat, ball, V-bit, drill...) next to the number, once the type is known
+- [ ] Screen preview on the host build (ESPHome `sdl` display) to see the real fonts without hardware
 - [ ] Bit type and size per T-number: read the ;@MKR|TOOL header of the running job from the Z1 (FILE_* transfer, header only)
 - [ ] Bit names/types shared with cnc-facing's catalogue (flat, ball, engraving, corn, drill, chamfer)
 - [-] ~~Tool-change screen in the bit's colour~~ dropped: e-paper, and type + size as text says more than a colour

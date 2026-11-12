@@ -1,0 +1,40 @@
+# The z1 component and its entities: follows the Z1 over the LAN. Needs a
+# network (packages/wifi.yaml, or the host platform); everything else is
+# optional. The entities are what Home Assistant and the web page show; the
+# screen reads the component directly.
+external_components:
+  - source:
+      type: local
+      path: components
+    components: [z1, z1_screen]
+
+logger:
+  level: INFO
+
+z1:
+  id: z1_machine
+  # Found from its UDP announcement. Set host: (and give it a fixed DHCP
+  # lease) to pin it; machine_name: if there is ever more than one Z1. Do it
+  # in your *.local.yaml (README.md, "Your machine").
+  state:
+    name: State
+  halt_reason:
+    name: Alarm reason
+  machine_ip:
+    name: Machine IP
+  tool:
+    name: Tool
+  next_tool:
+    name: Next tool
+  tool_length:
+    name: Tool length
+  job_time:
+    name: Job time
+  online:
+    name: Online
+  tool_change:
+    name: Tool change
+  job_active:
+    name: Job active
+  alarm:
+    name: Alarm

@@ -1,0 +1,24 @@
+# Freenove ESP32-S3-WROOM Lite (N8R8). Any ESP32 with Wi-Fi runs z1mba: copy
+# this file for another board and change the chip and the pins.
+#
+# The screen's pins, free on this board: keep GPIO35-37 (octal PSRAM), 19-20
+# (USB), 43-44 (UART0) and the strapping pins 0/3/45/46 out of it. Override
+# any of them in the substitutions of your own config.
+substitutions:
+  screen_clk: GPIO12
+  screen_mosi: GPIO11
+  screen_cs: GPIO10
+  screen_dc: GPIO9
+  screen_reset: GPIO14
+  screen_busy: GPIO13
+
+esp32:
+  variant: esp32s3
+  flash_size: 8MB
+  framework:
+    type: esp-idf
+    advanced:
+      flash_chip: generic
+
+psram:
+  mode: octal

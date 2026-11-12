@@ -1,0 +1,6 @@
+# A status page with the entities on http://z1mba.local/, for running without
+# Home Assistant. Read-only: z1mba has nothing to switch, and firmware uploads
+# through the page stay off (that would need `ota: platform: web_server`).
+web_server:
+  port: 80
+  version: 3

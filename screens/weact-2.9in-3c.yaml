@@ -1,0 +1,24 @@
+# WeAct 2.9" e-paper, black/white/red, 296x128 on its side. The one z1mba is built with.
+# Wire it to the screen_* pins of the board package; see README.md, "Screen".
+substitutions:
+  # The size after rotation, and the fonts in px. The layout test draws every
+  # preset at this size (tools/screen_presets.py), so keep these plain lines.
+  screen_width: "296"
+  screen_height: "128"
+  font_small: "14"
+  font_medium: "20"
+  font_big: "64"
+
+packages:
+  screen: !include ../packages/screen.yaml
+
+display:
+  - platform: epaper_spi
+    id: z1_display
+    model: weact-2.9in-3c
+    rotation: 90
+    cs_pin: ${screen_cs}
+    dc_pin: ${screen_dc}
+    reset_pin: ${screen_reset}
+    busy_pin: ${screen_busy}
+    update_interval: never  # z1_screen asks for each redraw

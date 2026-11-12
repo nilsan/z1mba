@@ -49,11 +49,13 @@ jobs:
           path: |
             ~/.platformio
             .esphome
-          key: esphome-2026.10.2-${{ hashFiles('z1mba.yaml', 'z1mba-host.yaml') }}
+          key: esphome-2026.10.2-${{ hashFiles('*.yaml', 'packages/*.yaml', 'screens/*.yaml') }}
           restore-keys: esphome-2026.10.2-
       - run: pip install esphome==2026.10.2
       - run: cp secrets.example.yaml secrets.yaml
-      - name: Compile for the ESP32-S3
+      - name: Check the standalone config (no Home Assistant)
+        run: esphome config z1mba-standalone.yaml > /dev/null
+      - name: Compile for the ESP32-S3, with Home Assistant and the screen
         run: esphome compile z1mba.yaml
       - name: Compile for Linux (host)
         run: esphome compile z1mba-host.yaml

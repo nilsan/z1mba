@@ -1,0 +1,17 @@
+# Wi-Fi and over-the-air updates. The one key encrypts OTA uploads, and the
+# Home Assistant API too when packages/home-assistant.yaml is in.
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  min_auth_mode: WPA2
+
+ota:
+  - platform: esphome
+    encryption:
+      key: !secret z1mba_encryption_key
+
+sensor:
+  - platform: wifi_signal
+    name: WiFi signal
+    update_interval: 60s
+    entity_category: diagnostic

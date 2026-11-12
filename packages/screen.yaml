@@ -1,0 +1,25 @@
+# The tool-change screen, for any display: included by the presets in
+# screens/, which add the display (id z1_display) and set the font sizes.
+# The pins come from the board package. The layout adapts to the display's size (components/z1/z1_screen.h).
+spi:
+  clk_pin: ${screen_clk}
+  mosi_pin: ${screen_mosi}
+
+font:
+  - file: "gfonts://Roboto Condensed@700"
+    id: z1_font_small
+    size: ${font_small}
+  - file: "gfonts://Roboto Condensed@700"
+    id: z1_font_medium
+    size: ${font_medium}
+  # The bit to load, as big as it gets: only the characters it can show.
+  - file: "gfonts://Roboto Condensed@700"
+    id: z1_font_big
+    size: ${font_big}
+    glyphs: "!-0123456789?LPTaebor"
+
+z1_screen:
+  display_id: z1_display
+  font_small: z1_font_small
+  font_medium: z1_font_medium
+  font_big: z1_font_big

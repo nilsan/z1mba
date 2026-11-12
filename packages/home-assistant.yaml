@@ -1,0 +1,6 @@
+# Home Assistant: the entities show up in HA (Settings > Devices > ESPHome),
+# for notifications and history. Leave this package out to run z1mba on its
+# own; the screen works the same either way.
+api:
+  encryption:
+    key: !secret z1mba_encryption_key

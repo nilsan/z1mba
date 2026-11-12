@@ -1,0 +1,15 @@
+# z1mba without Home Assistant: the screen, plus a status page on
+# http://z1mba.local/ in place of the HA entities.
+packages:
+  board: !include packages/board-freenove-s3.yaml
+  core: !include packages/core.yaml
+  wifi: !include packages/wifi.yaml
+  web: !include packages/web.yaml
+  screen: !include screens/weact-2.9in-3c.yaml
+
+esphome:
+  name: z1mba
+  friendly_name: z1mba
+  project:
+    name: nilsan.z1mba
+    version: "0.2.0"
