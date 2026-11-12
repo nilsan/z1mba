@@ -1,0 +1,41 @@
+# z1mba as a Linux program: the same z1 component, run on a PC against the
+# real Z1 to check it before flashing. `esphome run z1mba-host.yaml`, logs to
+# the terminal. No API, so it does not show up in Home Assistant.
+esphome:
+  name: z1mba-host
+
+host:
+
+external_components:
+  - source:
+      type: local
+      path: components
+    components: [z1]
+
+logger:
+  level: DEBUG
+
+z1:
+  id: z1_machine
+  state:
+    name: State
+  halt_reason:
+    name: Alarm reason
+  machine_ip:
+    name: Machine IP
+  tool:
+    name: Tool
+  next_tool:
+    name: Next tool
+  tool_length:
+    name: Tool length
+  job_time:
+    name: Job time
+  online:
+    name: Online
+  tool_change:
+    name: Tool change
+  job_active:
+    name: Job active
+  alarm:
+    name: Alarm

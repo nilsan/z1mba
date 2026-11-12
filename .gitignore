@@ -1,0 +1,9 @@
+secrets.yaml
+.esphome/
+__pycache__/
+*.swp
+.ruff_cache/
+# Raw probe logs from your own machine stay local (tests/fixtures holds anonymised replays).
+runs/
+# Machine-specific config, see README "Your machine".
+*.local.yaml

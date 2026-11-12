@@ -1,0 +1,87 @@
+# z1mba, the Z1 Multi-Bit Assistant: follows a Makera Z1 over the LAN and tells
+# Home Assistant (and, later, its own screen) which bit to load at a tool
+# change. Read-only: it only ever sends the status query. See README.md and
+# docs/Z1-PROTOCOL.md.
+#
+# No display yet; the screen is still being chosen (README.md, "Screen"). It
+# will go in as a package so the base stays the same whichever one wins.
+
+esphome:
+  name: z1mba
+  friendly_name: z1mba
+  # Shown in Home Assistant as the firmware version; bump with the changes
+  # that ship behaviour (patch: fix, minor: feature).
+  project:
+    name: nilsan.z1mba
+    version: "0.1.0"
+
+# Freenove ESP32-S3-WROOM Lite (N8R8). Any ESP32 with Wi-Fi runs the z1
+# component; the PSRAM is for a screen.
+# Keep GPIO35-37 (octal PSRAM), 19-20 (USB), 43-44 (UART0) and the strapping
+# pins 0/3/45/46 free when a screen is wired.
+esp32:
+  variant: esp32s3
+  flash_size: 8MB
+  framework:
+    type: esp-idf
+    advanced:
+      flash_chip: generic
+
+psram:
+  mode: octal
+
+external_components:
+  - source:
+      type: local
+      path: components
+    components: [z1]
+
+logger:
+  level: INFO
+
+api:
+  encryption:
+    key: !secret z1mba_api_encryption_key
+
+ota:
+  - platform: esphome
+    # Uploads are encrypted and authenticated with the api encryption key.
+    encryption:
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  min_auth_mode: WPA2
+
+z1:
+  id: z1_machine
+  # Found from its UDP announcement. Set host: (and give it a fixed DHCP
+  # lease) to pin it; machine_name: if there is ever more than one Z1.
+  state:
+    name: State
+  halt_reason:
+    name: Alarm reason
+  machine_ip:
+    name: Machine IP
+  tool:
+    name: Tool
+  next_tool:
+    name: Next tool
+  tool_length:
+    name: Tool length
+  job_time:
+    name: Job time
+  online:
+    name: Online
+  tool_change:
+    name: Tool change
+  job_active:
+    name: Job active
+  alarm:
+    name: Alarm
+
+sensor:
+  - platform: wifi_signal
+    name: WiFi signal
+    update_interval: 60s
+    entity_category: diagnostic

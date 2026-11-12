@@ -1,0 +1,59 @@
+# yamllint disable rule:line-length
+name: build
+
+# yamllint thinks bare `on:` is a YAML 1.1 boolean; quote it to silence.
+"on":
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+      - uses: astral-sh/setup-uv@v10.3.3  # exact tags only, no floating major tag
+        with:
+          enable-cache: false  # only runs uvx ruff; nothing to cache
+      - name: Lint Python
+        run: |
+          uvx ruff@0.17.4 check components tools
+          uvx ruff@0.17.4 format --check components tools
+      - name: Probe tests
+        run: python3 -m unittest discover -s tools
+      - name: Native C++ tests
+        run: tests/run.sh
+
+  firmware:
+    needs: test
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+      - uses: actions/cache@v6
+        with:
+          path: |
+            ~/.platformio
+            .esphome
+          key: esphome-2026.10.2-${{ hashFiles('z1mba.yaml', 'z1mba-host.yaml') }}
+          restore-keys: esphome-2026.10.2-
+      - run: pip install esphome==2026.10.2
+      - run: cp secrets.example.yaml secrets.yaml
+      - name: Compile for the ESP32-S3
+        run: esphome compile z1mba.yaml
+      - name: Compile for Linux (host)
+        run: esphome compile z1mba-host.yaml
